@@ -1,0 +1,1 @@
+Time setter timer is starting without GPS signal and clock gets reset to 00:00 utc every 5 minutes
