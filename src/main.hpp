@@ -26,7 +26,7 @@ Track tracks[] =
         {(char *)"Tom Flood",                  400,        27,              -36.752221, 144.280549, west},
         {(char *)"Bendigo Kart Club",          650,        60,              -36.758277, 144.240695, east},
         {(char *)"Bendigo Livestock Exchange", 86,         1200,            -36.676555, 144.300467, north},
-        {(char *)"Haddon Kart Club",           675,        64,              -37.588638, 143.713429, north},
+        {(char *)"Haddon Kart Club",           801,        72,              -37.588638, 143.713429, north},
         {(char *)"Home Track",                 1000,       120,             -36.884954, 144.310404, south}};
 
 const size_t numTracks = sizeof(tracks) / sizeof(tracks[0]);
