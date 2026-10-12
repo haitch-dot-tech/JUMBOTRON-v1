@@ -1,9 +1,5 @@
 #include <Arduino.h>
 
-#define JT_FW_VER_MAJOR "1"
-#define JT_FW_VER_MINOR "01"
-#define JT_FW_VER_BUILD "0041"
-
 // FreeRTOS
 #define LVGL_TASK_STACK 8192
 #define LED_TASK_STACK 2048

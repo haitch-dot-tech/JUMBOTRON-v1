@@ -5,6 +5,7 @@
 #include "conf.h"
 
 #include <lvgl.h>
+#include <algorithm>
 
 #include "ui.hpp"
 
@@ -82,7 +83,14 @@ void LVGL_Task(void *pvParameters)
         if (lap_time_seconds != 0)
         {
             lv_label_set_text_fmt(laptime_label, "%d:%02d", lap_time_seconds / 60, lap_time_seconds % 60);
-            lv_obj_set_style_text_color(laptime_label, lv_color_white(), LV_PART_MAIN);
+            
+            lv_obj_set_style_text_color(laptime_label,
+                                        lv_color_hsv_to_rgb(constrain((static_cast<float>(tracks[currentTrack].optimalLapTime) / lap_time_seconds - 0.8f) / (1.2f - 0.8f) * (0.0f - 240.0f) + 240.0f, // map value
+                                                                      0.0f,    // min limit
+                                                                      240.0f), // max limit
+                                                            100,               // saturation
+                                                            100),              // value
+                                        LV_PART_MAIN);
         }
         else
         {
@@ -95,22 +103,7 @@ void LVGL_Task(void *pvParameters)
             lv_label_set_text(en_eff_label, "N/A");
             lv_obj_set_style_text_color(en_eff_label, lv_color_hex(0xC0C0C0), LV_PART_MAIN);
         }
-        // else if (current_en_eff_wh_lap <= 5.0f)
-        // {
-        //     lv_label_set_text(en_eff_label, "GOOD");
-        //     lv_obj_set_style_text_color(en_eff_label, lv_color_hex(0x00FF00), LV_PART_MAIN);
-        // }
-        // else if (current_en_eff_wh_lap <= 10.0f)
-        // {
-        //     lv_label_set_text(en_eff_label, "OK");
-        //     lv_obj_set_style_text_color(en_eff_label, lv_color_hex(0xFFFF00), LV_PART_MAIN);
-        // }
-        // else
-        // {
-        //     lv_label_set_text(en_eff_label, "POOR");
-        //     lv_obj_set_style_text_color(en_eff_label, lv_color_hex(0xFF0000), LV_PART_MAIN);
-        // }
-        else 
+        else
         {
             lv_label_set_text_fmt(en_eff_label, "%d", (int)current_en_eff_wh_lap);
             lv_obj_set_style_text_color(en_eff_label, lv_color_hex(0xFFFFFF), LV_PART_MAIN);
