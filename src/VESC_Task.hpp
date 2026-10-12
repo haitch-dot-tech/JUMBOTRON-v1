@@ -16,7 +16,7 @@ void VESC_Task(void *pvParameters)
 
             vesc_connected = (VESC_Data.vesc_temp > 0) ? true : false;
 
-            if (vesc_connected)
+            if (vesc_connected && laps_amount != 0)
                 current_en_eff_wh_lap = VESC_Data.watt_hours / static_cast<float>(laps_amount);
 
             xSemaphoreGive(VESC_Data_Mutex);
