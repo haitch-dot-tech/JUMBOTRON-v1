@@ -5,7 +5,7 @@
 
 LV_FONT_DECLARE(BakBakOne192);
 LV_FONT_DECLARE(OswaldSemiBold64);
-LV_FONT_DECLARE(OswaldSemiBold72);
+LV_FONT_DECLARE(OswaldSemiBold66);
 LV_FONT_DECLARE(RussoOne36);
 
 LV_IMAGE_DECLARE(bootscreen);
@@ -75,19 +75,19 @@ void ui_create(lv_obj_t *scr)
 
     clock_label = lv_label_create(scr);
     lv_obj_align(clock_label, LV_ALIGN_CENTER, -80, 0);
-    lv_obj_set_style_text_font(clock_label, &OswaldSemiBold72, LV_PART_MAIN);
+    lv_obj_set_style_text_font(clock_label, &OswaldSemiBold66, LV_PART_MAIN);
     lv_label_set_text(clock_label, "23:01");
     lv_obj_set_style_text_color(clock_label, lv_color_hex(0xFFFFFF), LV_PART_MAIN);
 
     laps_label = lv_label_create(scr);
     lv_obj_align(laps_label, LV_ALIGN_CENTER, 80, 0);
-    lv_obj_set_style_text_font(laps_label, &OswaldSemiBold72, LV_PART_MAIN);
+    lv_obj_set_style_text_font(laps_label, &OswaldSemiBold66, LV_PART_MAIN);
     lv_label_set_text(laps_label, "280");
     lv_obj_set_style_text_color(laps_label, lv_color_hex(0xFFFFFF), LV_PART_MAIN);
 
     laptime_label = lv_label_create(scr);
     lv_obj_align(laptime_label, LV_ALIGN_CENTER, -80, 120);
-    lv_obj_set_style_text_font(laptime_label, &OswaldSemiBold72, LV_PART_MAIN);
+    lv_obj_set_style_text_font(laptime_label, &OswaldSemiBold66, LV_PART_MAIN);
     lv_label_set_text(laptime_label, "2:00");
     lv_obj_set_style_text_color(laptime_label, lv_color_hex(0x00FF00), LV_PART_MAIN);
 
@@ -138,7 +138,7 @@ void ui_create(lv_obj_t *scr)
     lv_label_set_long_mode(notification_label, LV_LABEL_LONG_MODE_WRAP);
     lv_obj_set_style_text_align(notification_label, LV_TEXT_ALIGN_CENTER, LV_PART_MAIN);
     lv_obj_set_align(notification_label, LV_ALIGN_CENTER);
-    lv_obj_set_style_text_font(notification_label, &OswaldSemiBold72, LV_PART_MAIN);
+    lv_obj_set_style_text_font(notification_label, &OswaldSemiBold66, LV_PART_MAIN);
     lv_label_set_text(notification_label, "MOTOR HOT");
     lv_obj_set_width(notification_label, 320);
     lv_obj_set_style_text_color(notification_label, lv_color_hex(0xFF0000), LV_PART_MAIN);
