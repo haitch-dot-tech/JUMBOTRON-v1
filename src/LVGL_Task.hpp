@@ -83,14 +83,7 @@ void LVGL_Task(void *pvParameters)
         if (lap_time_seconds != 0)
         {
             lv_label_set_text_fmt(laptime_label, "%d:%02d", lap_time_seconds / 60, lap_time_seconds % 60);
-            
-            lv_obj_set_style_text_color(laptime_label,
-                                        lv_color_hsv_to_rgb(constrain((static_cast<float>(tracks[currentTrack].optimalLapTime) / lap_time_seconds - 0.8f) / (1.2f - 0.8f) * (0.0f - 240.0f) + 240.0f, // map value
-                                                                      0.0f,    // min limit
-                                                                      240.0f), // max limit
-                                                            100,               // saturation
-                                                            100),              // value
-                                        LV_PART_MAIN);
+            lv_obj_set_style_text_color(en_eff_label, lv_color_hex(0xFFFFFF), LV_PART_MAIN);
         }
         else
         {
@@ -122,6 +115,24 @@ void LVGL_Task(void *pvParameters)
             else 
             {
                 motor_sense_connected = false;
+            }
+
+            if (VESC_Data.motor_temp > 85.0f)
+            {
+                ui_notify(true, NOTIFY_WARNING, "MTR HOT");
+            }
+            else if (_level = NOTIFY_WARNING)
+            {
+                ui_notify(false);
+            }
+
+            if (VESC_Data.vesc_temp > 85.0f)
+            {
+                ui_notify(true, NOTIFY_WARNING, "ESC HOT");
+            }
+            else if (_level = NOTIFY_WARNING)
+            {
+                ui_notify(false);
             }
 
             xSemaphoreGive(VESC_Data_Mutex);

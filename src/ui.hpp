@@ -4,6 +4,7 @@
 #include "conf.h"
 
 LV_FONT_DECLARE(BakBakOne192);
+LV_FONT_DECLARE(OswaldSemiBold48);
 LV_FONT_DECLARE(OswaldSemiBold64);
 LV_FONT_DECLARE(OswaldSemiBold66);
 LV_FONT_DECLARE(RussoOne36);
@@ -35,11 +36,12 @@ lv_obj_t *notification_label;
 typedef enum 
 {
     NOTIFY_WARNING,
-    NOTIFY_INFO,
-    NOTIFY_PRAISE
+    NOTIFY_INFO
 } notification_level;
 
 bool notification_displayed = false;
+
+notification_level _level;
 
 void ui_bootscreen(lv_obj_t *scr)
 {
@@ -138,10 +140,91 @@ void ui_create(lv_obj_t *scr)
     lv_label_set_long_mode(notification_label, LV_LABEL_LONG_MODE_WRAP);
     lv_obj_set_style_text_align(notification_label, LV_TEXT_ALIGN_CENTER, LV_PART_MAIN);
     lv_obj_set_align(notification_label, LV_ALIGN_CENTER);
-    lv_obj_set_style_text_font(notification_label, &OswaldSemiBold66, LV_PART_MAIN);
+    lv_obj_set_style_text_font(notification_label, &OswaldSemiBold48, LV_PART_MAIN);
     lv_label_set_text(notification_label, "MOTOR HOT");
     lv_obj_set_width(notification_label, 320);
     lv_obj_set_style_text_color(notification_label, lv_color_hex(0xFF0000), LV_PART_MAIN);
+}
+
+static uint8_t lerp(uint8_t a, uint8_t b, float t)
+{
+    return (uint8_t)(a + (b - a) * t);
+}
+
+static lv_color_t interpolate_colour(lv_color_t a, lv_color_t b, float t)
+{
+    return lv_color_make(
+        lerp(a.red, b.red, t),
+        lerp(a.green, b.green, t),
+        lerp(a.blue, b.blue, t));
+}
+
+lv_color_t get_lap_colour(float ratio)
+{
+    // Blue: 0.8333 (100 seconds)
+    // Green: 1.0 (120 seconds)
+    // Yellow: 1.0833 (130 seconds)
+    // Orange: 1.125 (135 seconds)
+    // Red: 1.1667 (140 seconds)
+
+    const float blue_limit = 100.0f / 120.0f;
+    const float optimum = 1.0f;
+    const float yellow = 130.0f / 120.0f;
+    const float orange = 135.0f / 120.0f;
+    const float red_limit = 140.0f / 120.0f;
+
+    lv_color_t blue = lv_color_hex(0x0080FF);
+    lv_color_t green = lv_color_hex(0x00FF00);
+    lv_color_t yellow_c = lv_color_hex(0xFFFF00);
+    lv_color_t orange_c = lv_color_hex(0xFF8000);
+    lv_color_t red = lv_color_hex(0xFF0000);
+
+    if (ratio <= blue_limit)
+        return blue;
+
+    if (ratio < optimum)
+    {
+        float t = (ratio - blue_limit) /
+                  (optimum - blue_limit);
+
+        return interpolate_colour(blue, green, t);
+    }
+
+    if (ratio < yellow)
+    {
+        float t = (ratio - optimum) /
+                  (yellow - optimum);
+
+        return interpolate_colour(green, yellow_c, t);
+    }
+
+    if (ratio < orange)
+    {
+        float t = (ratio - yellow) /
+                  (orange - yellow);
+
+        return interpolate_colour(yellow_c, orange_c, t);
+    }
+
+    if (ratio < red_limit)
+    {
+        float t = (ratio - orange) /
+                  (red_limit - orange);
+
+        return interpolate_colour(orange_c, red, t);
+    }
+
+    return red;
+}
+
+void update_lap_label(int lap_time)
+{
+    if (tracks[currentTrack].optimalLapTime <= 0.0f)
+        return;
+
+    lv_label_set_text_fmt(laptime_label, "%d:%02d", lap_time_seconds / 60, lap_time_seconds % 60);
+
+    lv_obj_set_style_text_color(laptime_label, get_lap_colour(lap_time / tracks[currentTrack].optimalLapTime), LV_PART_MAIN);
 }
 
 void ui_notify(bool show, notification_level level = NOTIFY_INFO, char *text = (char *)"")
@@ -161,9 +244,6 @@ void ui_notify(bool show, notification_level level = NOTIFY_INFO, char *text = (
             case NOTIFY_INFO:
                 lv_obj_set_style_text_color(notification_label, lv_color_white(), LV_PART_MAIN);
                 break;
-            case NOTIFY_PRAISE:
-                lv_obj_set_style_text_color(notification_label, lv_color_hex(0x00FF00), LV_PART_MAIN);
-                break;
             case NOTIFY_WARNING:
                 lv_obj_set_style_text_color(notification_label, lv_color_hex(0xFF0000), LV_PART_MAIN);
                 break;
@@ -180,6 +260,8 @@ void ui_notify(bool show, notification_level level = NOTIFY_INFO, char *text = (
 
         notification_displayed = true;
     }
+
+    _level = level;
 }
 
 void ui_set_battery(float voltage)
