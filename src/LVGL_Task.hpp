@@ -5,7 +5,7 @@
 #include "conf.h"
 
 #include <lvgl.h>
-#include <algorithm>
+#include <string>
 
 #include "ui.hpp"
 
@@ -82,8 +82,7 @@ void LVGL_Task(void *pvParameters)
 
         if (lap_time_seconds != 0)
         {
-            lv_label_set_text_fmt(laptime_label, "%d:%02d", lap_time_seconds / 60, lap_time_seconds % 60);
-            lv_obj_set_style_text_color(en_eff_label, lv_color_hex(0xFFFFFF), LV_PART_MAIN);
+            update_lap_label(lap_time_seconds);
         }
         else
         {
