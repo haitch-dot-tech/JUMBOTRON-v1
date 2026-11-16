@@ -118,7 +118,7 @@ void LVGL_Task(void *pvParameters)
 
             if (VESC_Data.motor_temp > 85.0f)
             {
-                ui_notify(true, NOTIFY_WARNING, "MTR HOT");
+                ui_notify(true, NOTIFY_WARNING, (char *)"MTR HOT");
             }
             else if (_level = NOTIFY_WARNING)
             {
@@ -127,7 +127,7 @@ void LVGL_Task(void *pvParameters)
 
             if (VESC_Data.vesc_temp > 85.0f)
             {
-                ui_notify(true, NOTIFY_WARNING, "ESC HOT");
+                ui_notify(true, NOTIFY_WARNING, (char *)"ESC HOT");
             }
             else if (_level = NOTIFY_WARNING)
             {

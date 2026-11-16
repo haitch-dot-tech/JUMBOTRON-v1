@@ -159,8 +159,10 @@ static lv_color_t interpolate_colour(lv_color_t a, lv_color_t b, float t)
         lerp(a.blue, b.blue, t));
 }
 
-lv_color_t get_lap_colour(float ratio)
+lv_color_t get_lap_colour(int laptime, int optimumLap)
 {
+    float ratio = (float)laptime / (float)optimumLap;
+
     // Blue: 0.8333 (100 seconds)
     // Green: 1.0 (120 seconds)
     // Yellow: 1.0833 (130 seconds)
@@ -219,12 +221,14 @@ lv_color_t get_lap_colour(float ratio)
 
 void update_lap_label(int lap_time)
 {
-    if (tracks[currentTrack].optimalLapTime <= 0.0f)
+    unsigned int optimalLapTime = tracks[currentTrack].optimalLapTime;
+
+    if (optimalLapTime <= 0.0f)
         return;
 
-    lv_label_set_text_fmt(laptime_label, "%d:%02d", lap_time_seconds / 60, lap_time_seconds % 60);
+    lv_label_set_text_fmt(laptime_label, "%d:%02d", lap_time / 60, lap_time % 60);
 
-    lv_obj_set_style_text_color(laptime_label, get_lap_colour(lap_time / tracks[currentTrack].optimalLapTime), LV_PART_MAIN);
+    lv_obj_set_style_text_color(laptime_label, get_lap_colour(lap_time, optimalLapTime), LV_PART_MAIN);
 }
 
 void ui_notify(bool show, notification_level level = NOTIFY_INFO, char *text = (char *)"")
