@@ -24,7 +24,7 @@
 #define BOOT_SCREEN_TIME 4000
 
 // GPS
-#define GPS_BAUD 115200
+#define GPS_BAUD 9600
 #define GPS_TX 10
 #define GPS_RX 11
 

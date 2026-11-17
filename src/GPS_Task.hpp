@@ -8,10 +8,30 @@
 
 TinyGPSPlus gps;
 
+Preferences gps_flashmem;
+
 static double lastLat = 0;
 static double lastLon = 0;
 
 uint32_t lastLapMillis = 0;
+
+void writeLapCount(int count)
+{
+    gps_flashmem.begin("data", false);
+    gps_flashmem.putInt("laps", count);
+    gps_flashmem.end();
+
+    return;
+}
+
+int readLapCount(void)
+{
+    gps_flashmem.begin("data", true);
+    int count = gps_flashmem.getInt("laps", 0);
+    gps_flashmem.end();
+
+    return count;
+}
 
 void countLap()
 {
@@ -22,6 +42,10 @@ void countLap()
     laps_amount++;
 
     total_distance_travelled += tracks[currentTrack].trackLength;
+
+    writeLapCount(initialLapCount + laps_amount);
+
+    return;
 }
 
 void checkForLap(void)
@@ -68,6 +92,8 @@ void GPS_Task(void *pvParameters)
     Serial1.begin(GPS_BAUD, SERIAL_8N1, GPS_TX, GPS_RX);
 
     Serial1.setTimeout(10);
+
+    initialLapCount = readLapCount();
 
     for (;;)
     {

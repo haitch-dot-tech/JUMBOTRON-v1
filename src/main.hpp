@@ -27,6 +27,7 @@ Track tracks[] =
         {(char *)"Bendigo Kart Club",          650,        60,              -36.758277, 144.240695, east},
         {(char *)"Bendigo Livestock Exchange", 86,         1200,            -36.676555, 144.300467, north},
         {(char *)"Haddon Kart Club",           693,        72,              -37.588638, 143.713429, north},
+        {(char *)"PA Courtyard",               28,         18,              -36.762092, 144.273440, north},
         {(char *)"Home Track",                 1000,       120,             -36.884954, 144.310404, south}};
 
 const size_t numTracks = sizeof(tracks) / sizeof(tracks[0]);
@@ -58,6 +59,8 @@ extern uint32_t last_clock_sync;
 extern unsigned int lap_time_seconds;
 
 extern unsigned int laps_amount;
+
+extern unsigned int initialLapCount;
 
 extern uint32_t total_distance_travelled; // m
 

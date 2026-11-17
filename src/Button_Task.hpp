@@ -6,20 +6,26 @@
 
 #include "conf.h"
 
-Preferences flashmem;
+Preferences btn_flashmem;
 
 void writeTrack(int track)
 {
-    flashmem.begin("settings", false);
-    flashmem.putInt("track", track);
-    flashmem.end();
+    btn_flashmem.begin("settings", false);
+    btn_flashmem.putInt("track", track);
+    btn_flashmem.end();
+
+    btn_flashmem.begin("data", false);
+    btn_flashmem.putInt("laps", 0);
+    btn_flashmem.end();
+
+    initialLapCount = 0;
 }
 
 int readTrack(void)
 {
-    flashmem.begin("settings", true);
-    int track = flashmem.getInt("track", 0);
-    flashmem.end();
+    btn_flashmem.begin("settings", true);
+    int track = btn_flashmem.getInt("track", 0);
+    btn_flashmem.end();
 
     return track;
 }

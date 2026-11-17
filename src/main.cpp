@@ -32,6 +32,8 @@ unsigned int lap_time_seconds = 0;
 
 unsigned int laps_amount = 0;
 
+unsigned int initialLapCount = 0;
+
 uint32_t total_distance_travelled = 0; // m
 
 float current_en_eff_wh_lap = 0.0f;
