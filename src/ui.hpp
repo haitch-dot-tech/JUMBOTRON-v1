@@ -10,6 +10,7 @@ LV_FONT_DECLARE(OswaldSemiBold66);
 LV_FONT_DECLARE(RussoOne36);
 
 LV_IMAGE_DECLARE(xception_img);
+LV_IMAGE_DECLARE(infinity_img);
 LV_IMAGE_DECLARE(bg);
 
 // Boot screen objects
