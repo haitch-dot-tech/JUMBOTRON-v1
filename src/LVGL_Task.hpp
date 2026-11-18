@@ -107,7 +107,7 @@ void LVGL_Task(void *pvParameters)
         {
             ui_set_battery(VESC_Data.volts_in);
 
-            if (VESC_Data.motor_temp > 0.0f || !vesc_connected)
+            if ((VESC_Data.motor_temp > 0.0f && VESC_Data.motor_temp < 5000.0f) || !vesc_connected)
             {
                 motor_sense_connected = true;
             }
@@ -116,20 +116,20 @@ void LVGL_Task(void *pvParameters)
                 motor_sense_connected = false;
             }
 
-            if (VESC_Data.motor_temp > 85.0f)
+            if (VESC_Data.motor_temp > 85.0f && VESC_Data.motor_temp < 5000.0f) // TEMPORARY FIX
             {
-                ui_notify(true, NOTIFY_WARNING, (char *)"MTR HOT");
+                ui_notify(true, NOTIFY_WARNING, (char *)(String("MOTOR ") + String(VESC_Data.motor_temp, 1) + String("°C")).c_str());
             }
-            else if (_level = NOTIFY_WARNING)
+            else if (VESC_Data.vesc_temp < 85.0f)
             {
                 ui_notify(false);
             }
 
             if (VESC_Data.vesc_temp > 85.0f)
             {
-                ui_notify(true, NOTIFY_WARNING, (char *)"ESC HOT");
+                ui_notify(true, NOTIFY_WARNING, (char *)(String("ESC ") + String(VESC_Data.vesc_temp, 1) + String("°C")).c_str());
             }
-            else if (_level = NOTIFY_WARNING)
+            else if (VESC_Data.motor_temp < 85.0f)
             {
                 ui_notify(false);
             }
