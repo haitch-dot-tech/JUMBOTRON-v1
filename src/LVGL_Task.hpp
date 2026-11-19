@@ -95,7 +95,10 @@ void LVGL_Task(void *pvParameters)
         }
         else
         {
-            lv_label_set_text_fmt(en_eff_label, "%d", (int)current_en_eff_wh_km);
+            int rounded = (int)(current_en_eff_wh_km * 100 + 0.5f);
+
+            lv_label_set_text_fmt(en_eff_label, "%d.%02d", rounded / 100, abs(rounded % 100));
+
             lv_obj_set_style_text_color(en_eff_label, lv_color_hex(0xFFFFFF), LV_PART_MAIN);
         }
 
