@@ -18,7 +18,7 @@ void writeTrack(int track)
     btn_flashmem.putInt("laps", 0);
     btn_flashmem.end();
 
-    initialLapCount = 0;
+    laps_amount = 0;
 }
 
 int readTrack(void)
@@ -49,6 +49,8 @@ void Button_Task(void *pvParameters)
     attachInterrupt(digitalPinToInterrupt(0), buttonISR, FALLING);
 
     currentTrack = readTrack();
+
+    track_read = true;
 
     xTaskNotifyGive(LVGL_Task_Handle);
 

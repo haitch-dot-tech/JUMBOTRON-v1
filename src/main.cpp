@@ -24,6 +24,10 @@ vesc_data VESC_Data = {0};
 
 unsigned int currentTrack = 0;
 
+volatile bool track_read = false;
+
+volatile bool laps_count_updated = false;
+
 bool vesc_connected = false;
 
 uint32_t last_clock_sync = 0;
@@ -36,7 +40,9 @@ unsigned int initialLapCount = 0;
 
 uint32_t total_distance_travelled = 0; // m
 
-float current_en_eff_wh_lap = 0.0f;
+float last_energy_consumption = 0.0f;
+
+float current_en_eff_wh_km = 0.0f;
 
 void setup()
 {

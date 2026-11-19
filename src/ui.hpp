@@ -11,6 +11,7 @@ LV_FONT_DECLARE(RussoOne36);
 
 LV_IMAGE_DECLARE(xception_img);
 LV_IMAGE_DECLARE(infinity_img);
+LV_IMAGE_DECLARE(no_img);
 LV_IMAGE_DECLARE(bg);
 
 // Boot screen objects
@@ -46,8 +47,9 @@ notification_level _level;
 
 void ui_bootscreen(lv_obj_t *scr)
 {
-    lv_obj_set_style_bg_image_src(scr, &xception_img, LV_PART_MAIN);
+    // lv_obj_set_style_bg_image_src(scr, &xception_img, LV_PART_MAIN);
     // lv_obj_set_style_bg_image_src(scr, &infinity_img, LV_PART_MAIN);
+    lv_obj_set_style_bg_image_src(scr, &no_img, LV_PART_MAIN);
 
     version_label = lv_label_create(scr);
     lv_obj_align(version_label, LV_ALIGN_CENTER, 0, 160);

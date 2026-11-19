@@ -52,6 +52,10 @@ extern vesc_data VESC_Data;
 
 extern unsigned int currentTrack;
 
+extern volatile bool track_read;
+
+extern volatile bool laps_count_updated;
+
 extern bool vesc_connected;
 
 extern uint32_t last_clock_sync;
@@ -64,4 +68,6 @@ extern unsigned int initialLapCount;
 
 extern uint32_t total_distance_travelled; // m
 
-extern float current_en_eff_wh_lap;
+extern float last_energy_consumption;
+
+extern float current_en_eff_wh_km;

@@ -43,7 +43,7 @@ void countLap()
 
     total_distance_travelled += tracks[currentTrack].trackLength;
 
-    writeLapCount(initialLapCount + laps_amount);
+    writeLapCount(laps_amount);
 
     return;
 }
@@ -93,7 +93,14 @@ void GPS_Task(void *pvParameters)
 
     Serial1.setTimeout(10);
 
-    initialLapCount = readLapCount();
+    while (!track_read)
+    {
+        vTaskDelay(pdMS_TO_TICKS(10));
+    }
+
+    laps_amount += readLapCount();
+
+    laps_count_updated = true;
 
     for (;;)
     {

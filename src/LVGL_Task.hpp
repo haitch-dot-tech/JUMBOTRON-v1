@@ -78,8 +78,6 @@ void LVGL_Task(void *pvParameters)
             lv_obj_set_style_text_color(clock_label, lv_color_white(), LV_PART_MAIN);
         }
 
-        lv_label_set_text_fmt(laps_label, "%d", laps_amount);
-
         if (lap_time_seconds != 0)
         {
             update_lap_label(lap_time_seconds);
@@ -90,14 +88,14 @@ void LVGL_Task(void *pvParameters)
             lv_obj_set_style_text_color(laptime_label, lv_color_hex(0xC0C0C0), LV_PART_MAIN);
         }
 
-        if (current_en_eff_wh_lap == 0.0f)
+        if (current_en_eff_wh_km == 0.0f)
         {
             lv_label_set_text(en_eff_label, "N/A");
             lv_obj_set_style_text_color(en_eff_label, lv_color_hex(0xC0C0C0), LV_PART_MAIN);
         }
         else
         {
-            lv_label_set_text_fmt(en_eff_label, "%d", (int)current_en_eff_wh_lap);
+            lv_label_set_text_fmt(en_eff_label, "%d", (int)current_en_eff_wh_km);
             lv_obj_set_style_text_color(en_eff_label, lv_color_hex(0xFFFFFF), LV_PART_MAIN);
         }
 
